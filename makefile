@@ -5,4 +5,8 @@ run:
 	./a.out
 
 mystr.o: shell.c shell.h
-	gcc -c shell.c 
+	gcc -c shell.c
+
+clean:
+	rm ./a.out
+	rm *.o

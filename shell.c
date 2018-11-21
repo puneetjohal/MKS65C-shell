@@ -12,20 +12,21 @@
 //reads through the line, separating the command from its arguments
 char** parse_args(char * line){
   char ** args = malloc(sizeof(char *) * 6);
-  char * str = line;
   for (int i = 0; i < 6; i++){
-    args[i] = strsep( &str, " ");
+    args[i] = strsep( &line, " ");
+    printf("%s", args[i]);
   }
   return args;
 }
 
 //forks and execs command from line
 void run_command(){
-  char command[100];
+  char buf[100];
   printf("~$ ");
-  scanf("%s", command);
+  fgets(buf, 100, stdin);
   printf("\n");
-  char ** args = parse_args(command);
+  printf("string is: %s\n", buf);
+  char ** args = parse_args(buf);
   execvp(args[0], args);
   free(args);
 }
