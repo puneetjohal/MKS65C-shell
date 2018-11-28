@@ -14,7 +14,7 @@ char** parse_args(char * line){
   char ** args = malloc(sizeof(char *) * 6);
   for (int i = 0; i < 6; i++){
     args[i] = strsep( &line, " ");
-    printf("%s", args[i]);
+    //printf("%s", *(args[i])); error was that i was trying to print a pointer and not deliminating it
   }
   return args;
 }
@@ -22,11 +22,12 @@ char** parse_args(char * line){
 //forks and execs command from line
 void run_command(){
   char buf[100];
-  printf("~$ ");
+  printf("$ ");
   fgets(buf, 100, stdin);
   printf("\n");
   printf("string is: %s\n", buf);
   char ** args = parse_args(buf);
+  printf("args parsed");
   execvp(args[0], args);
   free(args);
 }
