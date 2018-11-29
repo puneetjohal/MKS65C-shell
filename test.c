@@ -2,9 +2,10 @@
 
 int main()
 {
-    char buf[100];
-    fgets(buf, 100, stdin);
-    printf("string is: %s\n", buf); 
-
+    char * c = "hello";
+    while (*c){
+      printf("%c\n",c);
+      c++;
+    }
     return 0;
 }

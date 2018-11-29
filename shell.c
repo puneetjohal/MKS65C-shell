@@ -9,12 +9,24 @@
 #include <fcntl.h>
 #include "shell.h"
 
+int countTokens (char * line){
+  int count = 1;
+  while (*line) {
+    if (line[0] == ' ') {
+      count++;
+    }
+    line++;
+  }
+  return count;
+}
+
 //reads through the line, separating the command from its arguments
 char** parse_args(char * line){
-  char ** args = malloc(sizeof(char *) * 6);
-  for (int i = 0; i < 6; i++){
+  int tokens = countTokens(line);
+  char ** args = malloc(sizeof(char *) * tokens);
+  for (int i = 0; i < tokens; i++){
     args[i] = strsep( &line, " ");
-    //printf("%s", *(args[i])); error was that i was trying to print a pointer and not deliminating it
+    //printf("%s", *(args[i])); segfault-causing error was that i was trying to print a pointer and not deliminating it
   }
   return args;
 }
@@ -25,7 +37,7 @@ void run_command(){
   printf("$ ");
   fgets(buf, 100, stdin);
   printf("\n");
-  printf("string is: %s\n", buf);
+  //printf("string is: %s\n", buf);
   char ** args = parse_args(buf);
   printf("args parsed");
   execvp(args[0], args);
