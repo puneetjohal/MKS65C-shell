@@ -25,7 +25,7 @@ char** parse_args(char * line){
   int tokens = countTokens(line);
   char ** args = malloc(sizeof(char *) * tokens);
   for (int i = 0; i < tokens; i++){
-    args[i] = strsep( &line, " ");
+    args[i] = strsep(&line, " ");
     //printf("%s", *(args[i])); segfault-causing error was that i was trying to print a pointer and not deliminating it
   }
   return args;
