@@ -23,23 +23,23 @@ int countTokens (char * line){
 //reads through the line, separating the command from its arguments
 char** parse_args(char * line){
   int tokens = countTokens(line);
-  char ** args = malloc(sizeof(char *) * tokens);
-  for (int i = 0; i < tokens; i++){
+  char ** args = malloc(sizeof(char *) * (tokens+1));
+  int i = 0;
+  for (i; i < tokens; i++){
     args[i] = strsep(&line, " ");
-    //printf("%s", *(args[i])); segfault-causing error was that i was trying to print a pointer and not deliminating it
   }
+  //args[i+1] = NULL;
   return args;
 }
 
 //forks and execs command from line
 void run_command(){
-  char buf[100];
+  char buf[100] = "ls -l -a";
   printf("$ ");
   fgets(buf, 100, stdin);
   printf("\n");
-  //printf("string is: %s\n", buf);
+  printf("%s\n", buf);
   char ** args = parse_args(buf);
-  printf("args parsed");
   execvp(args[0], args);
   free(args);
 }
@@ -48,3 +48,6 @@ int main(){
   run_command();
   return 0;
 }
+
+//https://stackoverflow.com/questions/21896000/c-execvp-and-command-line-arguments
+//http://www.cs.ecu.edu/karl/4630/sum01/example1.html
