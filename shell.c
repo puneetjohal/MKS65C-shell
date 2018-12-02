@@ -12,7 +12,7 @@
 int countTokens (char * line){
   int count = 1;
   while (*line) {
-    if (line[0] == ' ') {
+    if (strcmp(line[0],' ') == 0) {
       count++;
     }
     line++;
