@@ -41,7 +41,7 @@ int main(){
   fgets(buf, 100, stdin);
   buf[strlen(buf)-1] = 0;
   printf("\n");
-  printf("%s\n", buf);
+  //printf("%s\n", buf);
   int tokens = countTokens(buf);
   char ** args = malloc(sizeof(char *) * (tokens));
   args = parse_args(buf);
