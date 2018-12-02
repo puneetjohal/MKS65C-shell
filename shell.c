@@ -32,6 +32,10 @@ char** parse_args(char * line){
 
 //forks and execs command from line
 void run_command(){
+
+}
+
+int main(){
   printf("$ ");
   char buf[100];
   fgets(buf, 100, stdin);
@@ -43,10 +47,6 @@ void run_command(){
   args = parse_args(buf);
   execvp(args[0], args);
   free(args);
-}
-
-int main(){
-  run_command();
   return 0;
 }
 
