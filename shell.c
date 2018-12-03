@@ -45,8 +45,8 @@ void hardCoded(char ** args){
 //forks and execs command from line
 int main() {
   while(1) {
-    char cwd[256] = getcwd(cwd, sizeof(cwd));
-    printf("%s\n", cwd);
+    char cwd[256];
+    printf("%s\n", getcwd(cwd, sizeof(cwd)));
     printf("$ ");
     char buf[100];
     fgets(buf, 100, stdin);
