@@ -53,7 +53,9 @@ char** parse_commands (char * line) {
     if (strncmp(commands[i]," ",1) == 0) {
       commands[i] = &commands[i][1];
     }
+    printf("%d\n", strlen(commands[i]));
     printf("*%s*\n", &commands[i][strlen(commands[i]-1)]);
+    //program thinks that this points to the whole command until last command
     if (strncmp(&commands[i][strlen(commands[i]-2)], " ", 1) == 0) {
       printf("space was removed\n");
       commands[i][strlen(commands[i]-2)] = 0;
