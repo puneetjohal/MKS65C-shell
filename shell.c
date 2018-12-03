@@ -82,7 +82,7 @@ int main() {
     //iterate through each command
     int i = 0;
     while (cmds[i]) {
-      printf("evaluating\n");
+      printf("evaluating %s\n", cmds[i]);
       char * curcmd = cmds[i];
       curcmd[strlen(curcmd)-1] = 0;
       int tokens = countTokens(curcmd);
