@@ -47,14 +47,14 @@ int main() {
     args = parse_args(buf);
     //forking
     int f = fork();
-    if (f) {
+    if (!f) {
       int status;
       wait(&status);
     }
     else {
       execvp(args[0], args);
     }
-    printf("child taking the place of parent!");
+    printf("parent ready\n");
     free(args);
   return 0;
 }
