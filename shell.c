@@ -9,6 +9,7 @@
 #include <fcntl.h>
 #include "shell.h"
 
+//counts how many tokens there are in a command
 int countTokens (char * line) {
   int count = 1;
   while (*line) {
@@ -30,15 +31,21 @@ char** parse_args (char * line) {
   return args;
 }
 
-//forks and execs command from line
-void run_command(char ** args){
+//checks if user is trying to exit or cd and runs those commands
+void hardCoded(char ** args){
+  if (strcmp(args[0],"exit") == 0) {
+    printf("Exiting shell...\n");
+    exit(1);
+  }
+  if (strcmp(args[0],"cd") == 0) {
 
-    execvp(args[0], args);
-
+  }
 }
 
+//forks and execs command from line
 int main() {
   while(1) {
+    printf("%s\n", getcwd());
     printf("$ ");
     char buf[100];
     fgets(buf, 100, stdin);
@@ -48,11 +55,8 @@ int main() {
     int tokens = countTokens(buf);
     char ** args = malloc(sizeof(char *) * (tokens+1));
     args = parse_args(buf);
-    //check for exit
-    if (strcmp(args[0],"exit") == 0){
-      printf("Exiting shell\n");
-      exit(1);
-    }
+    //check for exit or cd
+    hardCoded(args);
     //forking
     int f = fork();
     if (f) {
