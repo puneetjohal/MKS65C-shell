@@ -69,7 +69,7 @@ int hardCoded(char ** args){
   if (strcmp(args[0],"exit") == 0) {
     printf("exiting shell...\n");
     exit(1);
-    return 1;
+    return 2;
   }
   else if (strcmp(args[0],"cd") == 0) {
     chdir(args[1]);
@@ -101,10 +101,16 @@ int main() {
       char ** args = malloc(sizeof(char *) * (tokens+1));
       args = parse_args(curcmd);
       //check for exit or cd
-      if (hardCoded(args)){
+      int x = hardCoded(args);
+      if (x){
         free(args);
-        i++;
-        continue;
+        if (x==2) {
+          return 1;
+        }
+        else {
+          i++;
+          continue;
+        }
       }
       //forking
       int f = fork();
