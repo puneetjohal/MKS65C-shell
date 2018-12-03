@@ -46,7 +46,7 @@ void hardCoded(char ** args){
 int main() {
   while(1) {
     char cwd[256];
-    printf("\n%s$ ", getcwd(cwd, sizeof(cwd)));
+    printf("%s$ ", getcwd(cwd, sizeof(cwd)));
     char buf[100];
     fgets(buf, 100, stdin);
     buf[strlen(buf)-1] = 0;
