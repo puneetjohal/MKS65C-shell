@@ -32,14 +32,17 @@ char** parse_args (char * line) {
 }
 
 //checks if user is trying to exit or cd and runs those commands
-void hardCoded(char ** args){
+int hardCoded(char ** args){
   if (strcmp(args[0],"exit") == 0) {
     printf("Exiting shell...\n");
     exit(1);
+    return 1;
   }
   else if (strcmp(args[0],"cd") == 0) {
     chdir(args[1]);
+    return 1;
   }
+  return 0;
 }
 
 //forks and execs command from line
@@ -54,7 +57,9 @@ int main() {
     char ** args = malloc(sizeof(char *) * (tokens+1));
     args = parse_args(buf);
     //check for exit or cd
-    hardCoded(args);
+    if (hardCoded(args)){
+      continue;
+    }
     //forking
     int f = fork();
     if (f) {

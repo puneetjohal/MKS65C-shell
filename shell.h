@@ -10,4 +10,5 @@ int countTokens (char * line);
 char** parse_args(char * line);
 
 //checks if user is trying to exit or cd and runs those commands without forking a child and execing
-void hardCoded(char ** args);
+//returns true if exit or cd was executed
+int hardCoded(char ** args);
