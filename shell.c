@@ -46,7 +46,17 @@ char** parse_commands (char * line) {
   int tokens = countCommands(line);
   char ** commands = malloc(sizeof(char *) * (tokens+1));
   for (int i = 0; i < tokens; i++) {
-    commands[i] = strsep(&line, " ; ");
+    commands[i] = strsep(&line, ";");
+  }
+  int i = 0;
+  while(commands[i]) {
+    if (strncmp(commands[i]," ",1) == 0) {
+      commands[i] = &commands[i][1];
+    }
+    if (strncmp(&commands[i][strlen(commands[i]-1)] , " " , 1) == 0) {
+      commands[i][strlen(commands[i]-1)] = 0;
+    }
+    i++;
   }
   return commands;
 }
@@ -73,6 +83,7 @@ int main() {
     printf("%s$ ", getcwd(cwd, sizeof(cwd)));
     char buf[100];
     fgets(buf, 100, stdin);
+    buf[strlen(buf)-1] = 0;
 
     //separating commands based on semicolons
     int commands = countCommands(buf);
@@ -84,7 +95,6 @@ int main() {
     while (cmds[i]) {
       printf("evaluating %s\n", cmds[i]);
       char * curcmd = cmds[i];
-      curcmd[strlen(curcmd)-1] = 0;
       int tokens = countTokens(curcmd);
       char ** args = malloc(sizeof(char *) * (tokens+1));
       args = parse_args(curcmd);
