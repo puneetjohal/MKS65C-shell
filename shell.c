@@ -87,7 +87,7 @@ int main() {
     printf("%s$ ", getcwd(cwd, sizeof(cwd)));
     char buf[100];
     fgets(buf, 100, stdin);
-    buf[strlen(buf)-1] = 0;
+    //buf[strlen(buf)-1] = 0;
 
     //separating commands based on semicolons
     int commands = countCommands(buf);
