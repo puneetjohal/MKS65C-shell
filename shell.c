@@ -31,8 +31,13 @@ char** parse_args (char * line) {
 }
 
 //forks and execs command from line
-void run_command(){
-
+void run_command(char ** args){
+  if (strcmp(args[0],"exit") == 0){
+    exit();
+  }
+  else{
+    execvp(args[0], args);
+  }
 }
 
 int main() {
@@ -53,12 +58,9 @@ int main() {
       wait(&status);
     }
     else {
-      execvp(args[0], args);
+      run_command(args);
     }
     free(args);
   }
   return 0;
 }
-
-//https://stackoverflow.com/questions/21896000/c-execvp-and-command-line-arguments
-//http://www.cs.ecu.edu/karl/4630/sum01/example1.html
