@@ -52,7 +52,7 @@ int main() {
       execvp(args[0], args);
     }
     else {
-      int = status;
+      int status;
       wait(&status);
     }
     free(args);
