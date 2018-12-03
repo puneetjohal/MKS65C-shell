@@ -109,7 +109,7 @@ int main() {
         break;
       }
       if (checker == 1){
-        free(args)
+        free(args);
         i++;
         continue;
       }
