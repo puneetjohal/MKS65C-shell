@@ -48,13 +48,13 @@ int main() {
     //forking
     int f = fork();
     if (f) {
-      execvp(args[0], args);
-    }
-    else {
       int status;
       wait(&status);
     }
-    printf("parent here!");
+    else {
+      execvp(args[0], args);
+    }
+    printf("child taking the place of parent!");
     free(args);
   return 0;
 }
