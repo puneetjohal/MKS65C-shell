@@ -50,8 +50,6 @@ int main() {
     char buf[100];
     fgets(buf, 100, stdin);
     buf[strlen(buf)-1] = 0;
-    printf("\n");
-    //printf("command: %s\n", buf);
     int tokens = countTokens(buf);
     char ** args = malloc(sizeof(char *) * (tokens+1));
     args = parse_args(buf);
