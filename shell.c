@@ -36,6 +36,7 @@ void run_command(){
 }
 
 int main() {
+  while(1) {
     printf("$ ");
     char buf[100];
     fgets(buf, 100, stdin);
@@ -54,8 +55,8 @@ int main() {
     else {
       execvp(args[0], args);
     }
-    printf("child ready to take place of parent\n");
     free(args);
+  }
   return 0;
 }
 
