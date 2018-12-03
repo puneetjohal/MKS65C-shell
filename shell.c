@@ -37,7 +37,7 @@ void hardCoded(char ** args){
     printf("Exiting shell...\n");
     exit(1);
   }
-  if (strcmp(args[0],"cd") == 0) {
+  else if (strcmp(args[0],"cd") == 0) {
     chdir(args[1]);
   }
 }
