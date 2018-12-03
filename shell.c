@@ -33,7 +33,7 @@ char** parse_args (char * line) {
 //forks and execs command from line
 void run_command(char ** args){
   if (strcmp(args[0],"exit") == 0){
-    exit();
+    exit(1);
   }
   else{
     execvp(args[0], args);
