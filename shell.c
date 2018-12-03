@@ -67,14 +67,11 @@ char** parse_commands (char * line) {
 //returns true if exit or cd was executed
 int hardCoded(char ** args){
   if (strcmp(args[0],"exit") == 0) {
-    free(args);
     printf("exiting shell...\n");
-    isExisting = 1;
     exit(1);
-    return 1;
+    return 2;
   }
   else if (strcmp(args[0],"cd") == 0) {
-    free(args);
     chdir(args[1]);
     return 1;
   }
@@ -105,7 +102,14 @@ int main() {
       char ** args = malloc(sizeof(char *) * (tokens+1));
       args = parse_args(curcmd);
       //check for exit or cd
-      if (hardCoded(args)){
+      int checker = hardCoded(args);
+      if (checker == 2){
+        free(args);
+        isExisting = 1;
+        break;
+      }
+      if (checker == 1){
+        free(args)
         i++;
         continue;
       }
