@@ -9,7 +9,7 @@
 #include <fcntl.h>
 #include "shell.h"
 
-int countTokens (char * line){
+int countTokens (char * line) {
   int count = 1;
   while (*line) {
     if (strncmp(line," ",1) == 0) {
@@ -21,10 +21,10 @@ int countTokens (char * line){
 }
 
 //reads through the line, separating the command from its arguments
-char** parse_args(char * line){
+char** parse_args (char * line) {
   int tokens = countTokens(line);
   char ** args = malloc(sizeof(char *) * (tokens+1));
-  for (int i = 0; i < tokens; i++){
+  for (int i = 0; i < tokens; i++) {
     args[i] = strsep(&line, " ");
   }
   return args;
@@ -35,18 +35,28 @@ void run_command(){
 
 }
 
-int main(){
-  printf("$ ");
-  char buf[100];
-  fgets(buf, 100, stdin);
-  buf[strlen(buf)-1] = 0;
-  printf("\n");
-  //printf("%s\n", buf);
-  int tokens = countTokens(buf);
-  char ** args = malloc(sizeof(char *) * (tokens+1));
-  args = parse_args(buf);
-  execvp(args[0], args);
-  free(args);
+int main() {
+  while (1) {
+    printf("$ ");
+    char buf[100];
+    fgets(buf, 100, stdin);
+    buf[strlen(buf)-1] = 0;
+    printf("\n");
+    //printf("command: %s\n", buf);
+    int tokens = countTokens(buf);
+    char ** args = malloc(sizeof(char *) * (tokens+1));
+    args = parse_args(buf);
+    //forking
+    int f = fork();
+    if (f) {
+      execvp(args[0], args);
+    }
+    else {
+      int = status;
+      wait(&status);
+    }
+    free(args);
+  }
   return 0;
 }
 
