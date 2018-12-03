@@ -67,11 +67,14 @@ char** parse_commands (char * line) {
 //returns true if exit or cd was executed
 int hardCoded(char ** args){
   if (strcmp(args[0],"exit") == 0) {
+    free(args);
     printf("exiting shell...\n");
+    isExisting = 1;
     exit(1);
-    return 2;
+    return 1;
   }
   else if (strcmp(args[0],"cd") == 0) {
+    free(args);
     chdir(args[1]);
     return 1;
   }
@@ -80,7 +83,8 @@ int hardCoded(char ** args){
 
 //forks and execs command from line
 int main() {
-  while(1) {
+  int isExisting = 0;
+  while(!isExisting) {
     char cwd[256];
     printf("%s$ ", getcwd(cwd, sizeof(cwd)));
     char buf[100];
@@ -94,36 +98,32 @@ int main() {
 
     //iterate through each command
     int i = 0;
-    while (cmds[i]) {
+    while (cmds[i] && !isExisting) {
       //printf("evaluating *%s*\n", cmds[i]);
       char * curcmd = cmds[i];
       int tokens = countTokens(curcmd);
       char ** args = malloc(sizeof(char *) * (tokens+1));
       args = parse_args(curcmd);
       //check for exit or cd
-      int x = hardCoded(args);
-      if (x){
-        free(args);
-        if (x==2) {
-          return 1;
-        }
-        else {
-          i++;
-          continue;
-        }
+      if (hardCoded(args)){
+        i++;
+        continue;
       }
       //forking
-      int f = fork();
-      if (f) {
-        int status;
-        wait(&status);
-      }
       else {
-        execvp(args[0],args);
+        int f = fork();
+        if (f) {
+          int status;
+          wait(&status);
+        }
+        else {
+          execvp(args[0],args);
+        }
+        free(args);
+        i++;
       }
-      free(args);
-      i++;
     }
+    free(cmds);
   }
   return 0;
 }
