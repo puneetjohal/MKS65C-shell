@@ -54,7 +54,7 @@ char** parse_commands (char * line) {
       commands[i] = &commands[i][1];
     }
     printf("%ld\n", strlen(commands[i]));
-    printf("*%s*\n", &commands[i][strlen(commands[i]-1)]);
+    printf("*%s*\n", &commands[i][strlen(commands[i]-2)]);
     //program thinks that this points to the whole command until last command
     if (strncmp(&commands[i][strlen(commands[i]-2)], " ", 1) == 0) {
       printf("space was removed\n");
@@ -87,7 +87,7 @@ int main() {
     printf("%s$ ", getcwd(cwd, sizeof(cwd)));
     char buf[100];
     fgets(buf, 100, stdin);
-    //buf[strlen(buf)-1] = 0;
+    buf[strlen(buf)-1] = 0;
 
     //separating commands based on semicolons
     int commands = countCommands(buf);
