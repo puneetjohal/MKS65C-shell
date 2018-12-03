@@ -38,7 +38,7 @@ void hardCoded(char ** args){
     exit(1);
   }
   if (strcmp(args[0],"cd") == 0) {
-
+    chdir(args[1]);
   }
 }
 
