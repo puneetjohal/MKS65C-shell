@@ -33,6 +33,7 @@ char** parse_args (char * line) {
 //forks and execs command from line
 void run_command(char ** args){
   if (strcmp(args[0],"exit") == 0){
+    printf("Exiting shell\n");
     exit(1);
   }
   else{
