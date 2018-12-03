@@ -32,13 +32,9 @@ char** parse_args (char * line) {
 
 //forks and execs command from line
 void run_command(char ** args){
-  if (strcmp(args[0],"exit") == 0){
-    printf("Exiting shell\n");
-    exit(1);
-  }
-  else{
+
     execvp(args[0], args);
-  }
+
 }
 
 int main() {
@@ -52,6 +48,11 @@ int main() {
     int tokens = countTokens(buf);
     char ** args = malloc(sizeof(char *) * (tokens+1));
     args = parse_args(buf);
+    //check for exit
+    if (strcmp(args[0],"exit") == 0){
+      printf("Exiting shell\n");
+      exit(1);
+    }
     //forking
     int f = fork();
     if (f) {
