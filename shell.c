@@ -53,10 +53,7 @@ char** parse_commands (char * line) {
     if (strncmp(commands[i]," ",1) == 0) {
       commands[i] = &commands[i][1];
     }
-    if (strncmp(&commands[i][strlen(commands[i]-1)] , " " , 1) == 0) {
-      printf("space was removed\n");
-      commands[i][strlen(commands[i]-1)] = 0;
-    }
+    commands[i][strlen(commands[i]-1)] = 0;
     i++;
   }
   return commands;
