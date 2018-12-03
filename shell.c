@@ -23,7 +23,7 @@ int countTokens (char * line){
 //reads through the line, separating the command from its arguments
 char** parse_args(char * line){
   int tokens = countTokens(line);
-  char ** args = malloc(sizeof(char *) * (tokens));
+  char ** args = malloc(sizeof(char *) * (tokens+1));
   for (int i = 0; i < tokens; i++){
     args[i] = strsep(&line, " ");
   }
@@ -43,7 +43,7 @@ int main(){
   printf("\n");
   //printf("%s\n", buf);
   int tokens = countTokens(buf);
-  char ** args = malloc(sizeof(char *) * (tokens));
+  char ** args = malloc(sizeof(char *) * (tokens+1));
   args = parse_args(buf);
   execvp(args[0], args);
   free(args);
