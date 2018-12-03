@@ -95,7 +95,7 @@ int main() {
     //iterate through each command
     int i = 0;
     while (cmds[i]) {
-      printf("evaluating *%s*\n", cmds[i]);
+      //printf("evaluating *%s*\n", cmds[i]);
       char * curcmd = cmds[i];
       int tokens = countTokens(curcmd);
       char ** args = malloc(sizeof(char *) * (tokens+1));
