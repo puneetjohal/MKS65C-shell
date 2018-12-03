@@ -36,7 +36,6 @@ void run_command(){
 }
 
 int main() {
-  while (1) {
     printf("$ ");
     char buf[100];
     fgets(buf, 100, stdin);
@@ -55,8 +54,8 @@ int main() {
       int status;
       wait(&status);
     }
+    printf("parent here!");
     free(args);
-  }
   return 0;
 }
 
