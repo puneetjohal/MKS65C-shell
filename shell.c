@@ -68,7 +68,6 @@ char** parse_commands (char * line) {
 int hardCoded(char ** args){
   if (strcmp(args[0],"exit") == 0) {
     printf("exiting shell...\n");
-    exit(1);
     return 2;
   }
   else if (strcmp(args[0],"cd") == 0) {
@@ -106,6 +105,8 @@ int main() {
       if (checker == 2){
         free(args);
         isExisting = 1;
+        exit(0);
+        printf("still running after exit\n");
         break;
       }
       if (checker == 1){
