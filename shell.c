@@ -121,7 +121,8 @@ int main() {
           wait(&status);
         }
         else {
-          execvp(args[0],args);
+          int catch = execvp(args[0],args);
+          exit(catch);
         }
         free(args);
         i++;
