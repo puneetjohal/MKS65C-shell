@@ -6,7 +6,7 @@ by Puneet Johal
 * Forks and execs commands
 * Hardcoded `cd` command changes directories
 * Hardcoded `exit` command terminates the shell
-* Execs multiple commands separated by `;`  
+* Execs multiple commands on the same line separated by `;`  
   * Note: space in front of or behind semicolon does not matter
 <!-- * Redirects stdin and stdout using arrows (`>` and `<`) -->
 <!-- * Redirection using pipes (`|`) -->
