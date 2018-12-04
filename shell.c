@@ -107,7 +107,7 @@ int main() {
         free(cmds);
         isExisting = 1;
         exit(0);
-        return 0;
+        break;
       }
       else if (checker == 1){
         free(args);
