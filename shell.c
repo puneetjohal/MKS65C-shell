@@ -104,6 +104,7 @@ int main() {
       int checker = hardCoded(args);
       if (checker == 2){
         free(args);
+        free(cmds);
         isExisting = 1;
         exit(0);
         return 0;
