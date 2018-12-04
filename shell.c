@@ -106,10 +106,9 @@ int main() {
         free(args);
         isExisting = 1;
         exit(0);
-        printf("still running after exit\n");
-        break;
+        return 0;
       }
-      if (checker == 1){
+      else if (checker == 1){
         free(args);
         i++;
         continue;
