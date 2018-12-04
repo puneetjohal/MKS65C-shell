@@ -16,6 +16,6 @@ by Puneet Johal
 * Eliminating input restrictions
 
 ## Bugs
-* Exiting after running multiple commands on one line may fail
+* None that I caught and didn't fix!
 
 ## Files and Function Headers
