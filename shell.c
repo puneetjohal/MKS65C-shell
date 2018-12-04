@@ -106,7 +106,6 @@ int main() {
         free(args);
         free(cmds);
         isExisting = 1;
-        exit(0);
         break;
       }
       else if (checker == 1){
@@ -129,6 +128,9 @@ int main() {
       }
     }
     free(cmds);
+    if(isExisting){
+      break;
+    }
   }
   return 0;
 }
