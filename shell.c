@@ -129,9 +129,6 @@ int main() {
       }
     }
     free(cmds);
-    if(isExisting){
-      break;
-    }
   }
   return 0;
 }
