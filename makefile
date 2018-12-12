@@ -4,7 +4,7 @@ all: shell.o
 run:
 	./a.out
 
-mystr.o: shell.c shell.h
+shell.o: shell.c shell.h
 	gcc -c shell.c
 
 clean:

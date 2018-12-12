@@ -77,54 +77,6 @@ int hardCoded(char ** args){
   return 0;
 }
 
-int execRedir (char** args) {
-  int j = 0;
-  while (args[j]) {
-    //redirecting stdout
-    if (strcmp(args[j],">") == 0){
-      char ** outputting = malloc(sizeof(char *) * 16); //left side cmd
-      char ** inputting = malloc(sizeof(char *) * 16); //right side cmd
-      int i = 0;
-      while (i<j) {
-        outputting[i] = args[i];
-        i++;
-      }
-      i+=2;
-      while (args[i]) {
-        inputting[i] = args[i];
-        i++;
-      }
-
-      /*
-      int f = dup(1); //stdout is duplicated to fd f
-      dup2(0,1); //stdout is redirected to stdin, stdout is closed
-      execvp(outputting[0],outputting);
-      int catch = execvp(inputting[0],inputting);
-      dup2(f,1); //stdout revived
-      exit(catch);
-      */
-
-      int fd = open(inputting, O_CREAT | O_WRONLY, 0777);
-      int backup = dup(1);
-			dup2(fd, 1);
-			close(fd);
-      dup2(1, backup);
-			execvp(outputting[0], outputting);
-			exit(0);
-    }
-    //redirecting stdin
-    if (strcmp(args[j],"<") == 0){
-
-    }
-    //pipe
-    if (strcmp(args[j],"|") == 0){
-
-    }
-    j++;
-  }
-  return execvp()
-}
-
 //forks and execs command from line
 int main() {
   int isExisting = 0;
@@ -169,23 +121,6 @@ int main() {
           wait(&status);
         }
         else {
-          //check for redirection
-          int j = 0;
-          while (args[j]) {
-            //redirecting stdout
-            if (strcmp(args[j],">") == 0){
-
-            }
-            //redirecting stdin
-            if (strcmp(args[j],"<") == 0){
-
-            }
-            //pipe
-            if (strcmp(args[j],"|") == 0){
-
-            }
-
-          }
           int catch = execvp(args[0],args);
           exit(catch);
         }
