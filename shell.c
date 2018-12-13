@@ -196,10 +196,11 @@ int main() {
     //iterate through each command
     int i = 0;
     while (cmds[i] && !isExiting) {
-      printf("evaluating *%s*\n", cmds[i]);
+      //printf("evaluating *%s*\n", cmds[i]);
 
       //check for exit or cd
       int checker = hardCoded(cmds[i]);
+      printf("evaluating *%s*\n", cmds[i]);
       if (checker == 2){
         free(cmds);
         isExiting = 1;
