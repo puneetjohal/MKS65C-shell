@@ -134,17 +134,26 @@ void exec(char * cmd){
   redir = parse_redir(cmd);
   printer(redir);
 
-  //stdout redirected into a file
-  if ( strcmp(redir[1],">") == 0 ){
-    //int fd = open()
+  //counting # of elements in redir
+  int redirLen = 0;
+  while(redir[redirLen]){
+    redirLen++;
   }
-  //stdin redirected from a file to the command
-  else if ( strcmp(redir[1],"<") == 0 ){
 
-  }
-  //stdout of first command redirected into the stdin of the next
-  else if ( strcmp(redir[1],"|") == 0 ){
+  //if there is more than one redir element, handle redirection
+  if (redirLen > 1) {
+    //stdout redirected into a file
+    if ( strcmp(redir[1],">") == 0 ){
+      //int fd = open()
+    }
+    //stdin redirected from a file to the command
+    else if ( strcmp(redir[1],"<") == 0 ){
 
+    }
+    //stdout of first command redirected into the stdin of the next
+    else if ( strcmp(redir[1],"|") == 0 ){
+
+    }
   }
 
   //no redirection
