@@ -77,7 +77,7 @@ char** parse_redir (char * line){
     retArr[i] = strsep(&line, "<>|");
     i++;
   }
-  int i = 0;
+  i = 0;
   while(retArr[i]) {
     //removes space in the front
     if (strncmp(retArr[i]," ",1) == 0) {
