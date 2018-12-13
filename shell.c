@@ -77,9 +77,22 @@ int hardCoded(char ** args){
   return 0;
 }
 
+//forks and execs any commands that aren't exit or cd
+void exec(char ** args){
+  int f = fork();
+  if (f) {
+    int status;
+    wait(&status);
+  }
+  else {
+    int catch = execvp(args[0],args);
+    exit(catch);
+  }
+}
+
 //forks and execs command from line
 int main() {
-  int isExisting = 0;
+  int isExiting = 0;
   while(!isExisting) {
     char cwd[256];
     printf("%s$ ", getcwd(cwd, sizeof(cwd)));
@@ -94,18 +107,21 @@ int main() {
 
     //iterate through each command
     int i = 0;
-    while (cmds[i] && !isExisting) {
+    while (cmds[i] && !isExiting) {
       //printf("evaluating *%s*\n", cmds[i]);
+
+      //seperating args based on spaces
       char * curcmd = cmds[i];
       int tokens = countTokens(curcmd);
       char ** args = malloc(sizeof(char *) * (tokens+1));
       args = parse_args(curcmd);
+
       //check for exit or cd
       int checker = hardCoded(args);
       if (checker == 2){
         free(args);
         free(cmds);
-        isExisting = 1;
+        isExiting = 1;
         break;
       }
       else if (checker == 1){
@@ -113,21 +129,15 @@ int main() {
         i++;
         continue;
       }
-      //forking
+
+      //forking and execing, freeing args in current cmd, moving on to next cmd
       else {
-        int f = fork();
-        if (f) {
-          int status;
-          wait(&status);
-        }
-        else {
-          int catch = execvp(args[0],args);
-          exit(catch);
-        }
+        exec(args);
         free(args);
         i++;
       }
     }
+    //freeing all cmds
     free(cmds);
   }
   return 0;
