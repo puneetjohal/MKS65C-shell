@@ -72,8 +72,10 @@ char** parse_commands (char * line) {
 //separates the command around redirection indicators
 char** parse_redir (char * line){
   char** retArr = malloc(sizeof(char *) * 3);
-  for (int i = 0; i < 3; i++) {
+  int i = 0;
+  while (line) {
     retArr[i] = strsep(&line, "<>|");
+    i++;
   }
   int i = 0;
   while(retArr[i]) {
