@@ -196,7 +196,7 @@ int main() {
     //iterate through each command
     int i = 0;
     while (cmds[i] && !isExiting) {
-      //printf("evaluating *%s*\n", cmds[i]);
+      printf("evaluating *%s*\n", cmds[i]);
 
       //check for exit or cd
       int checker = hardCoded(cmds[i]);
@@ -212,7 +212,6 @@ int main() {
 
       //forking and execing, moving on to next cmd
       else {
-        printf("command %s\n", cmds[i]);
         exec(cmds[i]);
         i++;
       }
