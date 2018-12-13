@@ -75,7 +75,6 @@ char** parse_redir (char * line){
   int i = 0;
   while (line) {
     retArr[i] = strsep(&line, "<>|");
-    printf("%s\n", retArr[i]);
     i++;
   }
   i = 0;
@@ -130,7 +129,7 @@ int hardCoded(char * cmd){
 //forks and execs any commands that aren't exit or cd
 //handles redirection
 void exec(char * cmd){
-  //separating between < > or |
+  /*//separating between < > or |
   char ** redir = malloc(sizeof(char *) * 3);
   redir = parse_redir(cmd);
   printer(redir);
@@ -158,7 +157,7 @@ void exec(char * cmd){
   }
 
   //no redirection
-  else {
+  else { */
     //seperating args based on spaces
     int tokens = countTokens(cmd);
     char ** args = malloc(sizeof(char *) * (tokens+1));
@@ -173,7 +172,7 @@ void exec(char * cmd){
       int catch = execvp(args[0],args);
       exit(catch);
     }
-  }
+  //}
 }
 
 
