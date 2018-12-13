@@ -107,29 +107,11 @@ void printer(char ** arr){
 
 //------------------------------EXECING METHODS---------------------------------
 
-//checks if user is trying to exit or cd and runs those commands
-//returns true if exit or cd was executed
-int hardCoded(char * cmd){
-  //seperating args based on spaces
-  int tokens = countTokens(cmd);
-  char ** args = malloc(sizeof(char *) * (tokens+1));
-  args = parse_args(cmd);
-
-  if (strcmp(args[0],"exit") == 0) {
-    printf("exiting shell...\n");
-    return 2;
-  }
-  else if (strcmp(args[0],"cd") == 0) {
-    chdir(args[1]);
-    return 1;
-  }
-  return 0;
-}
-
-//forks and execs any commands that aren't exit or cd
+//forks and execs commands
 //handles redirection
-void exec(char * cmd){
-  /*//separating between < > or |
+//returns true if exit was executed
+int exec(char * cmd){
+  //separating between < > or |
   char ** redir = malloc(sizeof(char *) * 3);
   redir = parse_redir(cmd);
   printer(redir);
@@ -154,25 +136,43 @@ void exec(char * cmd){
     else if ( strcmp(redir[1],"|") == 0 ){
 
     }
-  }*/
+  }
 
   //no redirection
-  //else {
+  else {
+    free(redir);
     //seperating args based on spaces
     int tokens = countTokens(cmd);
     char ** args = malloc(sizeof(char *) * (tokens+1));
     args = parse_args(cmd);
-    //fork and exec
-    int f = fork();
-    if (f) {
-      int status;
-      wait(&status);
+
+    //check for exit
+    if (strcmp(args[0],"exit") == 0) {
+      printf("exiting shell...\n");
+      free(args);
+      return 1;
     }
+    //check for cd
+    else if (strcmp(args[0],"cd") == 0) {
+      chdir(args[1]);
+      free(args);
+      return 0;
+    }
+    //fork and exec any commands that aren't exit or cd
     else {
-      int catch = execvp(args[0],args);
-      exit(catch);
+      int f = fork();
+      if (f) {
+        int status;
+        wait(&status);
+      }
+      else {
+        int catch = execvp(args[0],args);
+        free(args);
+        exit(catch);
+      }
+      return 0;
     }
-  //}
+  }
 }
 
 
@@ -198,23 +198,12 @@ int main() {
     while (cmds[i] && !isExiting) {
       //printf("evaluating *%s*\n", cmds[i]);
 
-      //check for exit or cd
-      int checker = hardCoded(cmds[i]);
-      printf("evaluating *%s*\n", cmds[i]);
-      if (checker == 2){
-        free(cmds);
-        isExiting = 1;
+      //forking and execing
+      //check for exit
+      isExiting = exec(cmds[i]);
+      i++;
+      if (isExiting) {
         break;
-      }
-      else if (checker == 1){
-        i++;
-        continue;
-      }
-
-      //forking and execing, moving on to next cmd
-      else {
-        exec(cmds[i]);
-        i++;
       }
     }
     //freeing all cmds
