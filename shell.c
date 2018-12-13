@@ -159,6 +159,7 @@ void exec(char * cmd){
   //no redirection
   //else {
     //seperating args based on spaces
+      printf("%s\n", cmd);
     int tokens = countTokens(cmd);
       printf("tokens: %x\n", tokens);
     char ** args = malloc(sizeof(char *) * (tokens+1));
