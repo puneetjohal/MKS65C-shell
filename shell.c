@@ -9,6 +9,8 @@
 #include <fcntl.h>
 #include "shell.h"
 
+//------------------------------COUNTER METHODS---------------------------------
+
 //counts how many tokens there are in a command
 int countTokens (char * line) {
   int count = 1;
@@ -32,6 +34,8 @@ int countCommands (char * line) {
   return count;
 }
 
+//------------------------------PARSING METHODS---------------------------------
+
 //reads through the line, separating the command from its arguments
 char** parse_args (char * line) {
   int tokens = countTokens(line);
@@ -42,6 +46,7 @@ char** parse_args (char * line) {
   return args;
 }
 
+//separates the line around semicolons
 char** parse_commands (char * line) {
   int tokens = countCommands(line);
   char ** commands = malloc(sizeof(char *) * (tokens+1));
@@ -63,9 +68,37 @@ char** parse_commands (char * line) {
   return commands;
 }
 
+//separates the command around redirection indicators
+char** parse_redir (char * line){
+  char** retArr = mallon(sizeof(char *) * 3);
+  for (int i = 0; i < 3; i++) {
+    retArr[i] = strsep(&line, "<>|");
+  }
+  int i = 0;
+  while(retArr[i]) {
+    //removes space in the front
+    if (strncmp(retArr[i]," ",1) == 0) {
+      retArr[i] = &retArr[i][1];
+    }
+    //removes space in the back
+    if (strncmp(&retArr[i][strlen(retArr[i])-1], " ", 1) == 0) {
+      retArr[i][strlen(retArr[i])-1] = 0;
+    }
+    i++;
+  }
+  return retArr;
+}
+
+//------------------------------EXECING METHODS---------------------------------
+
 //checks if user is trying to exit or cd and runs those commands
 //returns true if exit or cd was executed
-int hardCoded(char ** args){
+int hardCoded(char ** cmd){
+  //seperating args based on spaces
+  int tokens = countTokens(cmd);
+  char ** args = malloc(sizeof(char *) * (tokens+1));
+  args = parse_args(cmd);
+
   if (strcmp(args[0],"exit") == 0) {
     printf("exiting shell...\n");
     return 2;
@@ -78,17 +111,57 @@ int hardCoded(char ** args){
 }
 
 //forks and execs any commands that aren't exit or cd
-void exec(char ** args){
-  int f = fork();
-  if (f) {
-    int status;
-    wait(&status);
+//handles redirection
+void exec(char ** cmd){
+  //separating between < > or |
+  char ** redir = malloc(sizeof(char *) * 3);
+  redir = parse_redir(cmd);
+  printer(redir);
+
+  //stdout redirected into a file
+  if ( strcmp(redir[1],">") == 0 ){
+    //int fd = open()
   }
+  //stdin redirected from a file to the command
+  else if ( strcmp(redir[1],"<") == 0 ){
+
+  }
+  //stdout of first command redirected into the stdin of the next
+  else if ( strcmp(redir[1],"|") == 0 ){
+
+  }
+
+  //no redirection
   else {
-    int catch = execvp(args[0],args);
-    exit(catch);
+    //seperating args based on spaces
+    int tokens = countTokens(cmd);
+    char ** args = malloc(sizeof(char *) * (tokens+1));
+    args = parse_args(cmd);
+    //fork and exec
+    int f = fork();
+    if (f) {
+      int status;
+      wait(&status);
+    }
+    else {
+      int catch = execvp(args[0],args);
+      exit(catch);
+    }
   }
 }
+
+//------------------------------CHAR** PRINTER----------------------------------
+
+//printer for debugging
+void printer(char ** arr){
+  int i = 0;
+  while (arr[i]) {
+    printf("'%s'\n", arr[i]);
+    i++;
+  }
+}
+
+//-----------------------------------MAIN---------------------------------------
 
 //forks and execs command from line
 int main() {
@@ -110,30 +183,21 @@ int main() {
     while (cmds[i] && !isExiting) {
       //printf("evaluating *%s*\n", cmds[i]);
 
-      //seperating args based on spaces
-      char * curcmd = cmds[i];
-      int tokens = countTokens(curcmd);
-      char ** args = malloc(sizeof(char *) * (tokens+1));
-      args = parse_args(curcmd);
-
       //check for exit or cd
-      int checker = hardCoded(args);
+      int checker = hardCoded(cmds[i]);
       if (checker == 2){
-        free(args);
         free(cmds);
         isExiting = 1;
         break;
       }
       else if (checker == 1){
-        free(args);
         i++;
         continue;
       }
 
-      //forking and execing, freeing args in current cmd, moving on to next cmd
+      //forking and execing, moving on to next cmd
       else {
         exec(args);
-        free(args);
         i++;
       }
     }
