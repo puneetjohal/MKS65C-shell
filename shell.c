@@ -7,7 +7,7 @@
 #include <sys/stat.h>
 #include <dirent.h>
 #include <fcntl.h>
-#include "shell.h"
+//#include "shell.h"
 
 //------------------------------COUNTER METHODS---------------------------------
 
@@ -33,6 +33,7 @@ int countCommands (char * line) {
   }
   return count;
 }
+
 
 //------------------------------PARSING METHODS---------------------------------
 
@@ -89,6 +90,19 @@ char** parse_redir (char * line){
   return retArr;
 }
 
+
+//------------------------------CHAR** PRINTER----------------------------------
+
+//printer for debugging
+void printer(char ** arr){
+  int i = 0;
+  while (arr[i]) {
+    printf("'%s'\n", arr[i]);
+    i++;
+  }
+}
+
+
 //------------------------------EXECING METHODS---------------------------------
 
 //checks if user is trying to exit or cd and runs those commands
@@ -112,7 +126,7 @@ int hardCoded(char * cmd){
 
 //forks and execs any commands that aren't exit or cd
 //handles redirection
-void exec(char ** cmd){
+void exec(char * cmd){
   //separating between < > or |
   char ** redir = malloc(sizeof(char *) * 3);
   redir = parse_redir(cmd);
@@ -150,16 +164,6 @@ void exec(char ** cmd){
   }
 }
 
-//------------------------------CHAR** PRINTER----------------------------------
-
-//printer for debugging
-void printer(char ** arr){
-  int i = 0;
-  while (arr[i]) {
-    printf("'%s'\n", arr[i]);
-    i++;
-  }
-}
 
 //-----------------------------------MAIN---------------------------------------
 
@@ -197,7 +201,7 @@ int main() {
 
       //forking and execing, moving on to next cmd
       else {
-        exec(args);
+        exec(cmds[i]);
         i++;
       }
     }
