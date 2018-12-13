@@ -93,7 +93,7 @@ void exec(char ** args){
 //forks and execs command from line
 int main() {
   int isExiting = 0;
-  while(!isExisting) {
+  while(!isExiting) {
     char cwd[256];
     printf("%s$ ", getcwd(cwd, sizeof(cwd)));
     char buf[100];
