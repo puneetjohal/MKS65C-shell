@@ -212,7 +212,7 @@ int main() {
 
       //forking and execing, moving on to next cmd
       else {
-        printf("%s\n", cmds[i]);
+        printf("command %s\n", cmds[i]);
         exec(cmds[i]);
         i++;
       }
