@@ -160,6 +160,7 @@ void exec(char * cmd){
   //else {
     //seperating args based on spaces
     int tokens = countTokens(cmd);
+      printf("tokens: %x\n", tokens);
     char ** args = malloc(sizeof(char *) * (tokens+1));
     args = parse_args(cmd);
     //fork and exec
