@@ -70,7 +70,7 @@ char** parse_commands (char * line) {
 
 //separates the command around redirection indicators
 char** parse_redir (char * line){
-  char** retArr = mallon(sizeof(char *) * 3);
+  char** retArr = malloc(sizeof(char *) * 3);
   for (int i = 0; i < 3; i++) {
     retArr[i] = strsep(&line, "<>|");
   }
@@ -93,7 +93,7 @@ char** parse_redir (char * line){
 
 //checks if user is trying to exit or cd and runs those commands
 //returns true if exit or cd was executed
-int hardCoded(char ** cmd){
+int hardCoded(char * cmd){
   //seperating args based on spaces
   int tokens = countTokens(cmd);
   char ** args = malloc(sizeof(char *) * (tokens+1));
