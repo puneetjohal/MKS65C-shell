@@ -159,9 +159,7 @@ void exec(char * cmd){
   //no redirection
   //else {
     //seperating args based on spaces
-      printf("%s\n", cmd);
     int tokens = countTokens(cmd);
-      printf("tokens: %x\n", tokens);
     char ** args = malloc(sizeof(char *) * (tokens+1));
     args = parse_args(cmd);
     //fork and exec
@@ -214,6 +212,7 @@ int main() {
 
       //forking and execing, moving on to next cmd
       else {
+        printf("%s\n", cmds[i]);
         exec(cmds[i]);
         i++;
       }
