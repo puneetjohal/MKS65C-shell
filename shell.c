@@ -75,6 +75,7 @@ char** parse_redir (char * line){
   int i = 0;
   while (line) {
     retArr[i] = strsep(&line, "<>|");
+    printf("%s\n", retArr[i]);
     i++;
   }
   i = 0;
