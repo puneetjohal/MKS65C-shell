@@ -169,7 +169,7 @@ int exec(char * cmd){
 
   // |
   //stdout of first command redirected into the stdin of the next
-  else if ( redirType = 3 ){
+  else if ( redirType == 3 ){
     //separating between < > or |
     char ** redir = malloc(sizeof(char *) * 3);
     redir = parse_redir(cmd);
