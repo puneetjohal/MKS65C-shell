@@ -16,6 +16,6 @@ by Puneet Johal
 * Eliminating input restrictions
 
 ## Bugs
-* None that I caught and didn't fix!
+* Redirecting output into a file that already exists will not overwrite all the contents of the file if the length of the contents is longer than what you are writting into it.
 
 ## Files and Function Headers
