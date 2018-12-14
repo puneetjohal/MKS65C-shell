@@ -163,6 +163,27 @@ int exec(char * cmd){
     redir = parse_redir(cmd);
     printer(redir);
 
+    int f = fork();
+    if (f) {
+      int status;
+      wait(&status);
+    }
+    else {
+      //redirecting file to stdin
+      int fd = open(redir[1], O_CREAT | O_RDONLY, 0700);
+      dup2(fd, 0);
+      close(fd);
+
+      //seperating args between spaces
+      int tokens = countTokens(cmd);
+      char ** args = malloc(sizeof(char *) * (tokens+1));
+      args = parse_args(redir[0]);
+
+      //execing
+      int catch = execvp(args[0],args);
+      free(args);
+      exit(catch);
+    }
 
     free(redir);
   }
