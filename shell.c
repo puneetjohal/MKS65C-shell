@@ -111,37 +111,77 @@ void printer(char ** arr){
 //handles redirection
 //returns true if exit was executed
 int exec(char * cmd){
-  //separating between < > or |
-  char ** redir = malloc(sizeof(char *) * 3);
-  redir = parse_redir(cmd);
-  printer(redir);
 
-  //counting # of elements in redir
-  int redirLen = 0;
-  while(redir[redirLen]){
-    redirLen++;
+  //check to see which type of redirection, if any
+  int i = 0;
+  int redirType = 0;
+  while(cmd[i]){
+    if ( strcmp(cmd[i],">") == 0) { redirType = 1; }
+    if ( strcmp(cmd[i],"<") == 0) { redirType = 2; }
+    if ( strcmp(cmd[i],"|") == 0) { redirType = 3; }
+    i++;
   }
 
-  //if there is more than one redir element, handle redirection
-  if (redirLen > 1) {
-    //stdout redirected into a file
-    if ( strcmp(redir[1],">") == 0 ){
-      //int fd = open()
-    }
-    //stdin redirected from a file to the command
-    else if ( strcmp(redir[1],"<") == 0 ){
+  // >
+  //stdout redirected into a file
+  if ( redirType == 1 ){
+    //separating between < > or |
+    char ** redir = malloc(sizeof(char *) * 3);
+    redir = parse_redir(cmd);
+    printer(redir);
 
+    int f = fork();
+    if (f) {
+      int status;
+      wait(&status);
     }
-    //stdout of first command redirected into the stdin of the next
-    else if ( strcmp(redir[1],"|") == 0 ){
+    else {
+      //redirecting stdout to file
+      int fd = open(redir[1], O_CREAT | O_WRONLY, 0644);
+      dup2(fd, 1);
+      close(fd);
 
+      //seperating args between spaces
+      int tokens = countTokens(cmd);
+      char ** args = malloc(sizeof(char *) * (tokens+1));
+      args = parse_args(redir[0]);
+
+      //execing
+      int catch = execvp(args[0],args);
+      free(args);
+      exit(catch);
     }
+
+    free(redir);
+  }
+
+  // <
+  //stdin redirected from a file to the command
+  else if ( redirType == 2 ){
+    //separating between < > or |
+    char ** redir = malloc(sizeof(char *) * 3);
+    redir = parse_redir(cmd);
+    printer(redir);
+
+
+    free(redir);
+  }
+
+  // |
+  //stdout of first command redirected into the stdin of the next
+  else if ( redirType = 3 ){
+    //separating between < > or |
+    char ** redir = malloc(sizeof(char *) * 3);
+    redir = parse_redir(cmd);
+    printer(redir);
+
+
+    free(redir);
   }
 
   //no redirection
   else {
-    free(redir);
-    //seperating args based on spaces
+    //seperating args between spaces
     int tokens = countTokens(cmd);
     char ** args = malloc(sizeof(char *) * (tokens+1));
     args = parse_args(cmd);
@@ -173,6 +213,7 @@ int exec(char * cmd){
       return 0;
     }
   }
+
 }
 
 
