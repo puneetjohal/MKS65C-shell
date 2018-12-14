@@ -116,9 +116,10 @@ int exec(char * cmd){
   int i = 0;
   int redirType = 0;
   while(cmd[i]){
-    if ( strcmp(*cmd[i],">") == 0) { redirType = 1; }
-    if ( strcmp(*cmd[i],"<") == 0) { redirType = 2; }
-    if ( strcmp(*cmd[i],"|") == 0) { redirType = 3; }
+    char * c = char[i];
+    if ( strcmp(c,">") == 0) { redirType = 1; }
+    if ( strcmp(c,"<") == 0) { redirType = 2; }
+    if ( strcmp(c,"|") == 0) { redirType = 3; }
     i++;
   }
 
