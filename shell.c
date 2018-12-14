@@ -212,14 +212,15 @@ int exec(char * cmd){
 
       //seperating args between spaces for the second command
       int tokens2 = countTokens(cmd);
-      char ** args12 = malloc(sizeof(char *) * (tokens2+1));
+      char ** args2 = malloc(sizeof(char *) * (tokens2+1));
       args2 = parse_args(redir[1]);
 
       //execing first command
       execvp(args1[0],args1);
       //execing second command
       int catch = execvp(args2[0],args2);
-      free(args);
+      free(args1);
+      free(args2);
       exit(catch);
     }
 
