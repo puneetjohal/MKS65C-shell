@@ -137,7 +137,7 @@ int exec(char * cmd){
     }
     else {
       //redirecting stdout to file
-      int fd = open(redir[1], O_CREAT | O_WRONLY, 0644);
+      int fd = open(redir[1], O_CREAT | O_WRONLY, 0700);
       dup2(fd, 1);
       close(fd);
 
