@@ -196,6 +196,32 @@ int exec(char * cmd){
     redir = parse_redir(cmd);
     printer(redir);
 
+    int f = fork();
+    if (f) {
+      int status;
+      wait(&status);
+    }
+    else {
+      //redirecting stdout to stdin
+      dup2(1,0); //stdout is replaced by stdin
+
+      //seperating args between spaces for the first command
+      int tokens = countTokens(cmd);
+      char ** args1 = malloc(sizeof(char *) * (tokens+1));
+      args1 = parse_args(redir[0]);
+
+      //seperating args between spaces for the second command
+      int tokens = countTokens(cmd);
+      char ** args12 = malloc(sizeof(char *) * (tokens+1));
+      args2 = parse_args(redir[1]);
+
+      //execing first command
+      execvp(args1[0],args1);
+      //execing second command
+      int catch = execvp(args2[0],args2)
+      free(args);
+      exit(catch);
+    }
 
     free(redir);
   }
