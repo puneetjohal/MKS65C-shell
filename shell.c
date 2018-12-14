@@ -118,7 +118,7 @@ int exec(char * cmd){
   while(cmd[i]){
     if ( strchr(&cmd[i],'>') ) { redirType = 1; }
     if ( strchr(&cmd[i],'<') ) { redirType = 2; }
-    if ( strchr(&cmd[i],'|') 0) { redirType = 3; }
+    if ( strchr(&cmd[i],'|') ) { redirType = 3; }
     i++;
   }
 
